@@ -1,4 +1,4 @@
-==FRC 1647 Code for the 2015 FRC Competition==
+# FRC 1647 Code for the 2015 FRC Competition #
 
 This repository contains the code for FRC Team 1647 for the 2015 FIRST Robotics Competition, Recycle Rush. This code has not been extensively revised and edited since competition season.
 
