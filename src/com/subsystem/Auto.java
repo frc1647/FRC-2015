@@ -9,7 +9,7 @@ public class Auto extends Subsystem {
 	private int autoMode = 0;
 	
 	private Drive drive;
-	private Elevator parpar;
+	private Elevator elevator;
 	private Timer autoTimer;
 	
 	private int autoState;
@@ -19,9 +19,9 @@ public class Auto extends Subsystem {
 	
 	private boolean isPullingOut = false;
 
-	public Auto(Drive drive, Elevator parpar) {
+	public Auto(Drive drive, Elevator elevator) {
 		this.drive = drive;
-		this.parpar = parpar;
+		this.elevator = elevator;
 		autoTimer = new Timer();
 		autoTimer.start();
 		//System.out.println(drive.gyroAngle());
@@ -37,7 +37,7 @@ public class Auto extends Subsystem {
 				drive.drive(vx, vy, false);
 			}
 		}
-		parpar.armHandler(armHeight, false);
+		elevator.armHandler(armHeight, false);
 		switch(autoMode){
 		case 0:
 			vx = 0;
@@ -106,13 +106,13 @@ public class Auto extends Subsystem {
 			drive.autoOrient(step.duration);//duration serves as the direction as well
 			break;
 		case GRAB_TOTE:
-			parpar.setClaw(true, true);
+			elevator.setClaw(true, true);
 			break;
 		case GRAB_WIDE:
-			parpar.setClaw(true, false);
+			elevator.setClaw(true, false);
 			break;
 		case GRAB_BIN:
-			parpar.setClaw(true, true);//Not sure
+			elevator.setClaw(true, true);//Not sure
 			break;
 		case MOVE_ARM:
 			armHeight = step.duration;//duration serves as the height as well
@@ -121,7 +121,7 @@ public class Auto extends Subsystem {
 		case WAIT_ARM://WAIT_ARM does not do anything except wait (look in isPreviousStepRunning)
 			break;
 		case RELEASE:
-			parpar.setClaw(false, false);
+			elevator.setClaw(false, false);
 			break;
 		case STOP:
 			drive.resetGyro(2);
@@ -140,7 +140,7 @@ public class Auto extends Subsystem {
 		case MOVE_ARM:
 			return false;
 		case WAIT_ARM://MOVE_ARM does not wait for the arm to reach its position: use this instead
-			return !parpar.armHandler(armHeight, true);
+			return !elevator.armHandler(armHeight, true);
 		case TURN://TURN requires a function to be called every cycle.
 			//TODO: Does this need to be called once they are done to stop?  If so, move these to the main do auto function.
 			return !drive.autoOrient(step.duration);//duration means direction here.
